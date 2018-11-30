@@ -1,0 +1,175 @@
+Online Library Application (OLA) Version 2.0
+============================================
+
+Design Documentation
+====================
+
+This document is indented to provide other developers with some
+information about design decisions made. As well, this document
+will help anyone wishing to customize their system.
+
+
+Purpose
+-------
+
+OLA was initially written to meet the needs of GLOW, a student group at
+the University of Waterloo. They have a small, 1000-book library, and
+wanted to make their holdings searchable on the internet and allow
+volunteers to track the lending of books in the same system. The software
+is made open source for other organizations with similar needs.
+
+
+Directory Organization
+----------------------
+
+root            - PHP files
+root/docs       - technical documentation/setup
+root/images     - graphical content
+root/lib        - auxiliary PHP files
+root/lib/adodb  - database access PHP files
+root/style      - style sheet
+root/tpl        - HTML templates
+
+
+HTML Templates
+--------------
+
+As much as possible, the HTML content is kept separate from the PHP code.  
+This facilitates portability and easy updating. The code separation is
+achieved by using HTML templates and an HTML/PHP merging feature called
+the FastTemplate library, stored as tpl.inc.php.
+
+It is impractical to place all the HTML code in templates. Little bits of 
+HTML reside in the PHP, mostly HTML error handling code.
+
+
+Stylesheets, Graphics, and Browser Compatibility
+------------------------------------------------
+
+A high priority was placed on making the application look the same in
+Linux and Windows, Netscape and Explorer. This is achieved in part by
+using a stylesheet where it's features were supported by all browsers.  
+This separation of fonts/colors from the HTML allows the appearance of the
+site to be changed quite easily in the style sheet.
+
+Finally, the CDR file provides the Corel Draw file used to generate the
+graphics for the site, should you wish to add your logo or simply change
+the colors. There are also two versions of the titlebar -- one with a logo 
+place holder and one with no logo at all (titlebar1.gif).
+
+
+Error Handling
+---------------
+
+The code used to trap errors is a bit non-standard. There is one global
+variable called $errormsg which is set to null at the start of each page.  
+Each function can add errors to the string. If 5 non-fatal errors occur,
+all 5 warnings will be reported to the user.
+
+The $errormsg variable is used extensively throughout the code to prevent
+further execution after an error has been encountered. This is usually
+encountered as [ if (empty ($errormsg))... ].
+
+The error-handling mechanism allows the program to fail gracefully. It
+also provides access control. If a page has restricted access, the
+$errormsg will carry an error to that effect and such restricted pages
+fail gracefully.
+
+
+Code Organization
+-----------------
+
+Most of OLA's PHP files have three sections. The first section checks the
+command-line parameters and variables for validity. If all the parameters
+are valid, the second section runs database queries. If these are
+successful, the third section accesses the HTML template and outputs the
+page. This three-part sequence helps modularize the code, and is 
+more-or-less consistent throughout the PHP project files.
+
+
+Global Settings
+---------------
+
+Key global settings are in two separate files. The first are in
+standard.inc.php which contains preferences. The second are in 
+db.inc.php which has database setup specifications.
+
+
+Access Control
+--------------
+
+To keep the program simple there is only one administrative login and 
+password. The admin login allows staff to check-out and check-in 
+resources, add and change resource descriptions, and export the database.
+
+The admin login also allows more details about the resources to be 
+viewed.
+
+It is not possible to delete resource records when logged in as admin.  
+This reduces the possibility of accidental data loss. Records can be set
+to "missing" by staff, or the database administrator can be instructed to
+delete the record in SQL.
+
+
+Adding New Categories/Media Types/Etc.
+--------------------------------------
+
+It is not possible to create new fields for the drop-down menus (subject,
+media type, loan status, location) when logged in as admin. The drop-downs
+are derived from the resource table. The best work-around is to manually
+change or add a new record in SQL with the new type, and this new type
+will subsequently appear in the appropriate drop-down list after that.
+
+
+Record Keeping
+--------------
+
+The fields chosen for the records were designed to handle just
+about any type of material, not just books.
+
+Only a few fields are classed as "mandatory" from the perspective of the
+PHP functions, and none are required from the SQL perspective. This was
+intended to make the system as flexible as possible.
+
+Almost all of the fields in the database are text strings to provide 
+maximum flexibility. The only real exception are the resource_id and 
+the loan_id fields, and other loan fields which are system-assigned.
+
+
+Loan Tracking System
+--------------------
+
+The system was designed so that borrowers do not have to set up a "user
+account" with the library database. This is the most practical solution for
+a small library with a small demand for its resources, and few if any
+frequent borrowers.
+
+
+Sessions
+--------
+
+PHP sessions are used to record the fact that the user has administrative
+access once the user is successfully authenticated. The session data
+should be stored on the host web server in a publicly inaccessible
+location (from the Internet that is, typically this the /tmp directory on 
+UNIX-based systems).
+
+
+Expansion Considerations
+------------------------
+
+Here are some ideas of things that shouldn't be too hard to add to 
+the system:
+
+- signing out books by library number instead of searching for them in
+  the database by name.
+
+- shopping cart-like system so borrowers only have to enter contact
+  information once per session.
+
+- ability to search/browse based on any criteria in the database.
+
+- restricting/granting public access to any fields in the database as 
+  defined by the system administrator.
+
+- multiple administrators/staff accounts, with different privilege levels.

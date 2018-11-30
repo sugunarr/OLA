@@ -1,0 +1,71 @@
+Online Library Application (OLA) Version 2.0
+============================================
+
+Installation
+============
+
+Requirements
+------------
+
+OLA requires PHP4 to be set up and running. Downloaded the software at:
+http://php.net/
+
+OLA requires a database and recommends using MySQL. This can be
+downloaded at:
+http://mysql.com/
+
+Other databases should work with OLA by making minor modifications to the
+SQL statements throughout the project, and by specifying the database type 
+in the db.inc.php file.
+
+Instructions for Installing OLA
+-------------------------------
+
+1. Unzip the files into the web directory of your choice.
+
+2. Edit the global variables declared in db.inc.php to match your
+   database set up. This file is commented to help you with this
+   task.
+
+3. Create a database in MySQL using the database name, userid, and 
+   password you declared for your database in the db.inc.php file.
+
+   Ex. [Assuming the user and pwd have already been set up]
+
+       # mysql -p -u sample_user
+       Password: sample_pwd
+       mysql> create database sample_db;
+       mysql> exit
+
+4. Prepare a spreadsheet of the books and other resources you plan
+   on importing into the database, and save it as a text (CSV) file.
+
+   Important: You cannot use the OLA program with an empty resource
+   table. You will get errors when it discovers there are no categories
+   and no subjects. The "Add New Resource" is only intended for casual
+   use after *most* of the books have already been imported.
+
+5. Create the database tables and import the resource file.
+
+   Ex. # mysql -p -u sample_user sample_db
+       Password: sample_pwd
+
+       Then, cut and paste the SQL statements from the docs/tables.sql
+       file into the SQL command line.
+
+6. You may now visit your site on the internet without getting errors.
+   Use the search feature to ensure that all your records were
+   imported correctly.
+
+7. Pick a username and password for the administrative login. (You can
+   change it in the future at any time.) The password needs to be
+   encrypted. Launch the page lib/set_password.php and enter your
+   planned username and password. Copy the resulting text string after
+   clicking on submit.
+
+   Open the standard.inc.php file and paste the encrypted password in the
+   correct line of the code. This file is commented to help you with this 
+   task. At this time you can also set the other global variables listed
+   in this file.
+
+8. Done!
