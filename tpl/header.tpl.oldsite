@@ -1,0 +1,16 @@
+<html><!-- #BeginTemplate "/Templates/template.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>V-Excel Online Library: <?php echo $DOC_TITLE ?></title>
+<!-- #EndEditable -->
+<?php include("../headernew.htm") ?>
+
+ <span class="title">
+  <img src="/images/hand.gif" width="20" height="16" align="ABSMIDDLE"> 
+   V-Excel Online Library
+ </span> 
+ 
+ <p>
+          <!-- #BeginEditable "content" -->
+            <table border="0" cellspacing="0" width="100%" cellpadding="1">
+             <tr>

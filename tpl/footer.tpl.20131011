@@ -1,0 +1,8 @@
+	           </td>
+		       </tr>
+	         </table>
+	        <!-- #EndEditable -->
+<?php include("../footer_newlook.htm") ?>
+          <!-- <p class="center">Copyright &copy; 2002 <a
+href="http://ola.sourceforge.net/">Online Library Application
+Developers</a></p> -->
